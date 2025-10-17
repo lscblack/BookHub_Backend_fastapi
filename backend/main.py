@@ -1,19 +1,18 @@
 from fastapi import FastAPI
-from db.session import engine, Base
-from endpoints import auth
+from db.session import Base, engine
+from endpoints import auth, book
 
 
-# create tables
 Base.metadata.create_all(bind=engine)
 
 
-app = FastAPI(title="FastAPI JWT Auth (SQLite)")
+app = FastAPI(title="FastAPI JWT + Book CRUD")
 
 
 app.include_router(auth.router)
+app.include_router(book.router)
 
 
-# root
 @app.get("/")
 def root():
-    return {"message": "FastAPI JWT Auth — visit /docs for Swagger UI"}
+    return {"message": "Welcome to FastAPI JWT + Book Management"}
